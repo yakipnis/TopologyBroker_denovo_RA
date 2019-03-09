@@ -1,5 +1,6 @@
-### Using TopologyBroker for denovo design of RA
+Using TopologyBroker for denovo design of RA
 ============================================
+
 The idea is to generate compact (globular) protein backbones threaded through RA theozymes.
 
 RA theozyme is a conceptual copy of the RA95.5-8F active site tetrad from Obexer ([DOI: 10.1038/nchem.2596](https://www.nature.com/articles/nchem.2596)).
