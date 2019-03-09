@@ -6,11 +6,11 @@ The idea is to generate compact (globular) protein backbones threaded through RA
 
 RA theozyme is a conceptual copy of the RA95.5-8F active site tetrad from Obexer (DOI: 10.1038/nchem.2596).
 
-"nuc/nucleophile" is always K
-"sht/shuttle" is Y
-"sup/support" is YST
-"brd/bridge" is NQ
-"lig/ligand" is Methodol
+"nuc/nucleophile" is always K.
+"sht/shuttle" is Y.
+"sup/support" is YST.
+"brd/bridge" is NQ.
+"lig/ligand" is Methodol.
 
 RA theozymes are built by docking individual components of the theozyme, attached to pieces of secondary structure, to TS form of Methodol substrate.
 Docking is guided by collection of Rosetta constraints to promote formation of hydrogen bonding network between components of the theozyme (similar to RA95.5-8F active site).
