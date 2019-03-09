@@ -1,10 +1,8 @@
-TopologyBroker_denovo_RA
-============================================
 ### Using TopologyBroker for denovo design of RA
-
+============================================
 The idea is to generate compact (globular) protein backbones threaded through RA theozymes.
 
-RA theozyme is a conceptual copy of the RA95.5-8F active site tetrad from Obexer (DOI: 10.1038/nchem.2596).
+RA theozyme is a conceptual copy of the RA95.5-8F active site tetrad from Obexer ([DOI: 10.1038/nchem.2596](https://www.nature.com/articles/nchem.2596)).
 
 "nuc/nucleophile" is always K
 
@@ -21,7 +19,7 @@ RA theozymes are built by docking individual components of the theozyme, attache
 Docking is guided by collection of Rosetta constraints to promote formation of hydrogen bonding network between components of the theozyme (similar to RA95.5-8F active site).
 In addition to HB network formation, rotamers of the side chain forming tetrad need to be the most favorable for given secondary structure context.
 
-Having pregenerated ensemble of theozymes try to use TopologyBroker framework (DOI: 10.1371/journal.pone.0138220) in RosettaScripts to:
+Having pregenerated ensemble of theozymes try to use TopologyBroker framework ([DOI: 10.1371/journal.pone.0138220](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0138220)) in RosettaScripts to:
 
 Step 0: generate pose of <= ~130 residues (to be fit on chip for large scale gene synthesis). Currently have to mutate individual components of theozyme before applying RigidChunkCM to match residue types (which is a bit strange according to BW)
 
