@@ -1,6 +1,6 @@
 TopologyBroker_denovo_RA
 ============================================
-# Using TopologyBroker for denovo design of RA
+## Using TopologyBroker for denovo design of RA
 
 The idea is to generate compact (globular) protein backbones threaded through RA theozymes.
 
