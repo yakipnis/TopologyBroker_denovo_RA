@@ -1,0 +1,109 @@
+<ROSETTASCRIPTS>
+/home/kipnis/git_rosetta_20180805/Rosetta/main/source/bin/rosetta_scripts.default.linuxgccrelease -overwrite -parser:protocol /home/kipnis/test_loop_insertion_RA_theozyme/test_TopologyBrocker_RigidChunkCM.xml -out:prefix test_ -nstruct 1 -extra_res_fa /home/kipnis/N_chains_RA_theozyme/docking_secstruct_stubs/ligs/RA2_SS_rotlib.params -s /home/kipnis/test_loop_insertion_RA_theozyme/long_helix_input.pdb
+	<SCOREFXNS>
+		<ScoreFunction name="CENT" weights="fldsgn_cen.wts">
+			Reweight scoretype="hbond_sc"                 weight="1.0" />
+		</ScoreFunction>
+		
+		<ScoreFunction name="BETA" weights="beta_nov16_cst.wts">
+			Reweight scoretype="atom_pair_constraint"     weight="1.0" />
+			Reweight scoretype="angle_constraint"         weight="1.0" />
+			Reweight scoretype="dihedral_constraint"      weight="1.0" />
+			<Reweight scoretype="linear_chainbreak"       weight="1.0" />
+			<Reweight scoretype="overlap_chainbreak"      weight="1.0" />
+		</ScoreFunction>
+		
+	</SCOREFXNS>
+	
+	<RESIDUE_SELECTORS>
+		<Index name="nuc" resnums="34" />
+		<Index name="sht" resnums="54" />
+		<Index name="sup" resnums="74" />
+		<Index name="brd" resnums="94" />
+		<Index name="lig" resnums="102" />
+		
+		<Index name="all" resnums="1-102" />
+		
+		<Index name="loop1" resnums="39-49" />
+		<Index name="loop2" resnums="59-69" />
+		<Index name="loop3" resnums="79-89" />
+		
+		<Or name="insert_chunk_here">
+			<PrimarySequenceNeighborhood selector="nuc" lower="3" upper="3" /> 
+			<PrimarySequenceNeighborhood selector="sht" lower="3" upper="3" /> 
+			<PrimarySequenceNeighborhood selector="sup" lower="3" upper="3" /> 
+			<PrimarySequenceNeighborhood selector="brd" lower="3" upper="3" /> 
+			<Index resnums="102" />
+		</Or>
+		
+		<Not name="movable" selector="insert_chunk_here" />
+		
+	</RESIDUE_SELECTORS>
+	
+	<MOVERS>
+		<MakePolyX name="polyX" aa="LEU" keep_pro="0" keep_gly="0" keep_disulfide_cys="0" />
+		
+		<MutateResidue name="nuc_in" residue_selector="nuc" new_res="LYS" preserve_atom_coords="1" mutate_self="0" />
+		<MutateResidue name="sht_in" residue_selector="sht" new_res="TYR" preserve_atom_coords="1" mutate_self="0" />
+		<MutateResidue name="sup_in" residue_selector="sup" new_res="THR" preserve_atom_coords="1" mutate_self="0" />
+		<MutateResidue name="brd_in" residue_selector="brd" new_res="ASN" preserve_atom_coords="1" mutate_self="0" />
+		
+		<ParsedProtocol name="theozyme_in">
+            <Add mover_name="nuc_in"/>
+            <Add mover_name="sht_in"/>
+            <Add mover_name="sup_in"/>
+            <Add mover_name="brd_in"/>
+        </ParsedProtocol>
+		
+		<SwitchResidueTypeSetMover name="centroid" set="centroid" />
+		<SwitchResidueTypeSetMover name="fullatom" set="fa_standard" />
+		
+<!-- 
+		lig is resn 29 in the region
+ -->
+		<RigidChunkCM name="chunkA" region="1-7,8-14,15-21,22-28,29" selector="insert_chunk_here" template="HHHH_SS_helix_0005.pdb" apply_to_template="centroid"/> 1-7,8-14,15-21,22-28
+
+		<ScriptCM name="min_loops" >
+			<MinMover bb="1" chi="1" scorefxn="CENT" />
+			<!-- The RigidChunkCMs will prevent the MinMover from getting control, so we can just select the whole Ab -->
+			<TorsionClaim backbone="1" sidechain="1" control_strength="CAN_CONTROL" selector="all" />
+		</ScriptCM>
+		
+		<LoopCM name="loop1_kic_refine" style="refine" algorithm="KIC" selector="loop1" />
+		<LoopCM name="loop2_kic_refine" style="refine" algorithm="KIC" selector="loop2" />
+		<LoopCM name="loop3_kic_refine" style="refine" algorithm="KIC" selector="loop3" />
+		
+		<AbscriptLoopCloserCM name="closer" fragments="frag9.txt" />
+		
+		<AbscriptMover name="abinitio" cycles="1">
+			<Fragments large_frags="frag9.txt" small_frags="frag3.txt" selector="movable" /> selector="movable" 1uufA.frag3 1uufA.frag9 frag9.txt frag3.txt
+			<Stage ids="I-IVb"/>
+		</AbscriptMover>
+		
+		<Environment name="env" auto_cut="1" allow_pure_movers="1">
+			Register mover="chunkA"/>
+			<Apply mover="chunkA"/>
+			<Apply mover="loop1_kic_refine"/>
+			Apply mover="loop2_kic_refine"/>
+			Apply mover="loop3_kic_refine"/>
+			<Apply mover="abinitio"/>
+			Apply mover="min_loops"/>
+			Apply mover="closer"/>
+		</Environment>
+		
+	</MOVERS>
+	
+	<FILTERS>
+	</FILTERS>
+	
+	<PROTOCOLS>
+		<Add mover="polyX" />
+		<Add mover="theozyme_in" />
+		<Add mover="centroid" />
+		<Add mover="env" />
+		<Add mover="fullatom" />
+	</PROTOCOLS>
+	
+	<OUTPUT scorefxn="BETA" />
+
+</ROSETTASCRIPTS>
