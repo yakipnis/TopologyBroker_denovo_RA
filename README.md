@@ -18,7 +18,7 @@ RA theozyme is a conceptual copy of the RA95.5-8F active site tetrad from Obexer
 
 RA theozymes are built by docking individual components of the theozyme, attached to pieces of secondary structure, to TS form of Methodol substrate.
 Docking is guided by collection of Rosetta constraints to promote formation of hydrogen bonding network between components of the theozyme (similar to RA95.5-8F active site).
-In addition to HB network formation, rotamers of the side chain forming tetrad need to be the most favorable for given secondary structure context.
+In addition to HB network formation, rotamers of the side chain forming tetrad need to be the most favorable for given secondary structure context. Pdb file HHHH_SS_helix_0005.pdb is an example of the theozyme.
 
 Having pregenerated ensemble of theozymes try to use TopologyBroker framework ([DOI: 10.1371/journal.pone.0138220](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0138220)) in RosettaScripts to:
 
